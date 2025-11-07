@@ -4,6 +4,10 @@
 **Project:** 10Pearls Shine - Pearls AQI Predictor  
 **Domain:** Data Sciences
 
+![Feature Pipeline](https://github.com/Mahnoor-0987/aqi-predictor/actions/workflows/feature_pipeline.yml/badge.svg)
+![Training Pipeline](https://github.com/Mahnoor-0987/aqi-predictor/actions/workflows/training_pipeline.yml/badge.svg)
+
+
 ## 📋 Overview
 
 Complete serverless ML pipeline for predicting Air Quality Index (AQI) for the next 3 days using:
@@ -114,6 +118,11 @@ Expected metrics:
 - **RMSE**: < 15
 - **R²**: > 0.85
 - **MAE**: < 12
+- Actual Performance (latest run):
+- Random Forest: RMSE = 3.47, R² = 0.946, MAE = 2.36
+- Ridge Regression: RMSE = 0.37, R² = 0.999, MAE = 0.03
+- Neural Network: RMSE = 10.69, R² = 0.485, MAE = 8.40
+
 
 ## 🎯 Dashboard Features
 
@@ -126,9 +135,9 @@ Expected metrics:
 
 Edit `.env` file:
 ```bash
-AQICN_API_TOKEN=71853b5f-3e68-4be6-acce-306063cef881
-HOPSWORKS_API_KEY=<your_key>
-HOPSWORKS_PROJECT_NAME=aqi_predictor
+AQICN_API_TOKEN=YOUR_AQICN_API_TOKEN_HERE
+HOPSWORKS_API_KEY=YOUR_HOPSWORKS_API_KEY_HERE
+HOPSWORKS_PROJECT_NAME=pearls_aqi_predictor_M
 CITY_NAME=Karachi
 CITY_LAT=24.8607
 CITY_LON=67.0011
@@ -166,6 +175,7 @@ pytest tests/ -v
 ## 📞 Support
 
 Check logs in `logs/` directory for detailed error messages.
+
 
 ## 🎉 Success Criteria
 
