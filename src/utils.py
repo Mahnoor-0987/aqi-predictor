@@ -17,9 +17,12 @@ class AQICNClient:
         self.token = config.api.aqicn_token
     
     def get_current_aqi(self, city=None):
-        """Get current AQI data"""
+        """Get current AQI data using lat/lon instead of city name"""
         city = city or config.location.city_name
-        url = f"{self.base_url}/feed/{city}/?token={self.token}"
+        lat = config.location.latitude
+        lon = config.location.longitude
+        
+        url = f"{self.base_url}/feed/geo:{lat};{lon}/?token={self.token}"
         
         try:
             response = requests.get(url, timeout=10)
