@@ -131,15 +131,23 @@ class FeaturePipeline:
         """Store features in Hopsworks with type compatibility"""
         logger.info("Storing features...")
         try:
-            # Ensure numeric columns are float
-            for col in df.select_dtypes(include=['int64', 'float64']).columns:
+            # Explicitly cast boolean/int columns to int
+            int_columns = ['is_weekend']
+            for col in int_columns:
+                if col in df.columns:
+                    df[col] = df[col].fillna(0).astype(int)
+    
+            # Cast all other numeric columns to float
+            float_columns = df.select_dtypes(include=['int64', 'float64']).columns.difference(int_columns)
+            for col in float_columns:
                 df[col] = df[col].astype(float)
-            
+    
             self.feature_group.insert(df)
             logger.info(f"Stored {len(df)} records")
         except Exception as e:
             logger.error(f"Storage error: {e}")
             raise
+
     
     def run(self, backfill: bool = False, backfill_days: int = 30):
         """Run the full pipeline"""
