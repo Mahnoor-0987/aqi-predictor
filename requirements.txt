@@ -1,5 +1,5 @@
 # Core Dependencies
-
+confluent-kafka
 
 # Machine Learning
 xgboost==2.0.2
