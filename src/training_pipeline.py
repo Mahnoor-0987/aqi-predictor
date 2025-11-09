@@ -177,7 +177,73 @@ class TrainingPipeline:
             joblib.dump(self.best_model, 'models/best_model.pkl')
         
         logger.info("✅ Models saved")
+    import os
+    import joblib
+    import tensorflow as tf
+    import hopsworks
+    from hsml.model_registry import ModelRegistry
     
+    # Connect to Hopsworks project and model registry
+    project = hopsworks.login(
+        api_key_value=config.hopsworks.api_key,
+        project=config.hopsworks.project_name
+    )
+    mr: ModelRegistry = project.get_model_registry()
+    
+    # Example for scikit-learn models (Random Forest & Ridge)
+    def register_sklearn_model(model, model_name: str, metrics_dict: dict, version: int = None):
+        # Save locally
+        local_path = f"models/{model_name}"
+        os.makedirs(local_path, exist_ok=True)
+        joblib.dump(model, os.path.join(local_path, "model.pkl"))
+    
+        # Register model
+        skl_model = mr.sklearn.create_model(
+            name=model_name,
+            version=version,
+            metrics=metrics_dict,
+            description=f"{model_name} for AQI prediction"
+        )
+        # Save to registry
+        skl_model.save(local_path)
+        print(f"Registered sklearn model '{model_name}' version {skl_model.version}")
+    
+    # Example for TensorFlow model
+    def register_tf_model(tf_model, model_name: str, metrics_dict: dict, version: int = None):
+        # Save model
+        local_path = f"models/{model_name}"
+        tf_model.save(local_path, include_optimizer=False)
+    
+        # Register model
+        tf_meta = mr.tensorflow.create_model(
+            name=model_name,
+            version=version,
+            metrics=metrics_dict,
+            description=f"{model_name} (TensorFlow) for AQI prediction"
+        )
+        tf_meta.save(local_path)
+        print(f"Registered tensorflow model '{model_name}' version {tf_meta.version}")
+    
+    # After training and selecting best_model_name
+    if best_model_name == "random_forest":
+        register_sklearn_model(
+            model=models["random_forest"],
+            model_name="AQI_RF",
+            metrics_dict=self.metrics["random_forest"]
+        )
+    elif best_model_name == "ridge":
+        register_sklearn_model(
+            model=models["ridge"],
+            model_name="AQI_Ridge",
+            metrics_dict=self.metrics["ridge"]
+        )
+    elif best_model_name == "neural_network":
+        register_tf_model(
+            tf_model=models["neural_network"]["model"],
+            model_name="AQI_NN",
+            metrics_dict=self.metrics["neural_network"]
+        )
+
     def run(self):
         """Run training pipeline"""
         try:
