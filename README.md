@@ -118,10 +118,6 @@ Expected metrics:
 - **RMSE**: < 15
 - **R²**: > 0.85
 - **MAE**: < 12
-- Actual Performance (latest run):
-- Random Forest: RMSE = 3.47, R² = 0.946, MAE = 2.36
-- Ridge Regression: RMSE = 0.37, R² = 0.999, MAE = 0.03
-- Neural Network: RMSE = 10.69, R² = 0.485, MAE = 8.40
 
 
 ## 🎯 Dashboard Features
