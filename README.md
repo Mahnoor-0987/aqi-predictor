@@ -31,7 +31,7 @@ Complete serverless ML pipeline for predicting Air Quality Index (AQI) for the n
 
 ### Prerequisites
 
-1. **AQICN API Token**: `71853b5f-3e68-4be6-acce-306063cef881` ✅
+1. **AQICN API Token**: your_api_key
 2. **Hopsworks Account**: [Sign up here](https://app.hopsworks.ai/)
 3. **Python 3.10+**
 
