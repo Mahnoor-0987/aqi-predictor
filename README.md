@@ -185,10 +185,6 @@ Check logs in `logs/` directory for detailed error messages.
 
 **Mahnoor Asim** - Data Sciences Project
 
-## 📄 License
-
-MIT License
-
 ---
 
 **Built with ❤️ for cleaner air and healthier communities**
